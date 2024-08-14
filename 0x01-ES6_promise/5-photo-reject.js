@@ -3,3 +3,4 @@ export default function uploadPhoto(filename) {
       new Error(`${filename} cannot be processed`),
     );
   }
+  
