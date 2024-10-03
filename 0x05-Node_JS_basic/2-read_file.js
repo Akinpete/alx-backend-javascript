@@ -1,12 +1,12 @@
 const fs = require('fs');
 
-function countStudents(path) {
+function countStudents (path) {
   try {
     // Attempt to read the file synchronously
     const data = fs.readFileSync(path, 'utf8');
 
     // Split the data into lines and filter out empty lines
-    const lines = data.split('\n').filter(line => line.trim() !== '');
+    const lines = data.split('\n').filter((line) => line.trim() !== '');
 
     // Check if the file has a header and valid data
     if (lines.length <= 1) {
@@ -18,9 +18,9 @@ function countStudents(path) {
     let totalStudents = 0;
 
     // Loop through the lines starting from the second line (skipping the header)
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i];
-      const [firstname, , , field] = line.split(',');
+    for (let i = 1; i < lines.length; i += 1) {
+      const line = lines[i].trim();
+      const [firstname, , , field] = line.split(',').map((item) => item.trim());
 
       // Ignore lines that don't have complete data
       if (firstname && field) {
