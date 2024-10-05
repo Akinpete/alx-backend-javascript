@@ -1,28 +1,33 @@
 const request = require('request');
 const { expect } = require('chai');
-const app = require('./api'); // Import the app
 
-describe('Index page', function() {
-  // Start the server before running the tests
-  before(function(done) {
-    this.server = app.listen(7865, done); // Start the server
-  });
+describe('Index page', () => {
+  const url = 'http://localhost:7865';
 
-  // Stop the server after the tests are done
-  after(function(done) {
-    this.server.close(done); // Close the server
-  });
-
-  it('Correct status code?', function(done) {
-    request('http://localhost:7865', function(err, res, body) {
-      expect(res.statusCode).to.equal(200);
+  it('should return correct status code', (done) => {
+    request.get(url, (error, response, body) => {
+      expect(response.statusCode).to.equal(200);
       done();
     });
   });
 
-  it('Correct result?', function(done) {
-    request('http://localhost:7865', function(err, res, body) {
+  it('should return correct result', (done) => {
+    request.get(url, (error, response, body) => {
       expect(body).to.equal('Welcome to the payment system');
+      done();
+    });
+  });
+
+  it('should return correct content type', (done) => {
+    request.get(url, (error, response, body) => {
+      expect(response.headers['content-type']).to.include('text/html');
+      done();
+    });
+  });
+
+  it('should handle non-existent pages', (done) => {
+    request.get(`${url}/nonexistent`, (error, response, body) => {
+      expect(response.statusCode).to.equal(404);
       done();
     });
   });
