@@ -19,6 +19,7 @@ const app = createServer((req, res) => {
         res.end(`This is the list of our students\n${result}`); // Send the result to the client
       })
       .catch((error) => {
+        console.error('Error loading the database:', error); // Log the error
         res.statusCode = 500;
         res.end('Cannot load the database'); // Handle errors like file not found
       });
