@@ -1,16 +1,15 @@
 const fs = require('fs').promises;
 
-function countStudents (path) {
+function countStudents(path) {
   return fs.readFile(path, 'utf8')
     .then((data) => {
       const lines = data.split('\n').filter((line) => line.trim() !== '');
-
-      // Check if the file has a header and valid data
       if (lines.length <= 1) {
-        throw new Error('No students found in the database');
+        return Promise.reject(new Error('No students found in the database'));
       }
-
-      // Initialize a map to count students by field and store student names
+      return lines;
+    })
+    .then((lines) => {
       const studentsByField = {};
       let totalStudents = 0;
 
@@ -31,20 +30,22 @@ function countStudents (path) {
         }
       }
 
-      // Construct the result string
+      return { studentsByField, totalStudents };
+    })
+    .then(({ studentsByField, totalStudents }) => {
       let result = `Number of students: ${totalStudents}\n`;
 
       for (const [field, students] of Object.entries(studentsByField)) {
         result += `Number of students in ${field}: ${students.length}. List: ${students.join(', ')}\n`;
       }
 
-      // Log the result to the console
       console.log(result.trim());
-
-      // Return the result string
       return result.trim();
     })
-    .catch(() => {
+    .catch((error) => {
+      if (error.message === 'No students found in the database') {
+        throw error;
+      }
       throw new Error('Cannot load the database');
     });
 }
