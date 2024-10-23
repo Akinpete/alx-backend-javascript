@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function countStudents (path) {
+function countStudents(path) {
   try {
     // Attempt to read the file synchronously
     const data = fs.readFileSync(path, 'utf8');
@@ -40,7 +40,7 @@ function countStudents (path) {
     // Log the number of students in each field and their names
     for (const [field, students] of Object.entries(studentsByField)) {
       console.log(
-        `Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`
+        `Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`,
       );
     }
   } catch (error) {
