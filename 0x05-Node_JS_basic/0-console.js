@@ -1,4 +1,4 @@
-function displayMessage (word) {
+function displayMessage(word) {
   console.log(word);
 }
 
